@@ -97,6 +97,21 @@ app.post('/removefood', (req, res) => {
         res.send("Could not remove item !")
     })
 })
+
+app.post('/removeall', (req, res) => {
+    const listId = req.query.listId
+
+    collection.updateOne({_id: ObjectId(listId)}, {
+        $set: { 'food': Array() }
+    }).then(result => {
+        console.log(result)
+        res.send("All items deleted !")
+    }).catch(err => {
+        console.error(err);
+        res.send("Could not remove items !")
+    })
+})
+
 app.post('/changefoodamount', (req, res) => {
     const listId = req.query.listId
     const foodId = req.query.foodId
