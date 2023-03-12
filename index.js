@@ -32,11 +32,13 @@ app.get('/getlist', (req, res) => {
     const listName = req.query.listName
     const listPassword = req.query.listPassword 
 
+
     collection.findOne({
-        listName: listName,
+        listName: listName ,
         listPassword: listPassword
     }).then(result => {
         res.send(result)
+        console.log(result)
     }).catch(err => {
         res.send("Could not check for a user !")
     })
@@ -62,6 +64,8 @@ app.post('/addfood', (req, res) => {
     const _id = req.query._id
     const foodName = req.query.foodName
     const foodAmount = req.query.foodAmount
+    const foodSection = req.query.foodSection
+   // console.log(foodSection)
 
     collection.updateOne({_id: ObjectId(_id)}, {
         $push:{
@@ -69,6 +73,7 @@ app.post('/addfood', (req, res) => {
                 $each:[{
                     name: foodName,
                     amount: foodAmount,
+                    section: foodSection,
                     foodId: new ObjectId()
                 }],
                 $position:0
@@ -98,6 +103,7 @@ app.post('/removefood', (req, res) => {
     })
 })
 
+
 app.post('/removeall', (req, res) => {
     const listId = req.query.listId
 
@@ -111,6 +117,7 @@ app.post('/removeall', (req, res) => {
         res.send("Could not remove items !")
     })
 })
+
 
 app.post('/changefoodamount', (req, res) => {
     const listId = req.query.listId
